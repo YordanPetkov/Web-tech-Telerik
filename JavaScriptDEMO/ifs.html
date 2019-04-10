@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+
+<html>
+
+	<script type = "text/javascript">
+		function SUM() {
+			
+			var n1 = parseInt(document.SumNumbers.number1.value);
+			var n2 = parseInt(document.SumNumbers.number2.value);
+			document.SumNumbers.sum.value = n1 + n2;
+		}
+		
+		alert(3);
+	</script>
+<body>
+	<form name = "SumNumbers" action = "" method = "get">
+		<input type = "text" name = "number1" />
+		<br />
+		<input type = "text" name = "number2" />
+		<br />
+		Sum =<input type = "text" name = "sum" readonly = "readonly"/>
+		<br />
+		<input type = "button" value = "Calculate Sum" onclick = "javascript: SUM()" /> 
+	</form>
+</body>
+	
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+
+<html lang="en-US">
+	<head>
+		<meta charset="UTF-8"> 
+	</head>
+	
+<body>
+	<h1>HELLO</h1>
+	<script type = "text/javascript">
+		function Student(name, age) {
+			this.name = name;
+			this.age = age;
+			this.printStudent = function() {
+				return  "Hello my name is " + this.name + " and I'm " + this.age + " years old.";
+			}
+		}
+		
+		var yordan = new Student("Yordan", 18);
+		document.write(yordan.name);
+		document.write('<br />');
+		document.write(yordan.age);
+		document.write('<br />');
+		document.write(yordan.printStudent());
+	</script>
+</body>
+	
+</html>
