@@ -1,0 +1,57 @@
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Page title</title>
+        <link rel="stylesheet" href="css/style.css">
+    </head>
+    <body>
+     <script type = "text/javascript">
+		function br(){
+			document.write('<br />');
+		}
+	</script>
+    <!-- your content will go there..  -->
+	
+	<script>
+		function Person(){
+			this.name = arguments[0];
+			this.talk = function() {
+				alert("Hi! I am " + this.name);
+			}
+		}
+		
+		function Student(name, grade) {
+			this.name = name;
+			this.grade = grade;
+		}	
+		function Teacher(name, teachObject) {
+			this.name = name;
+			this.teachObject = teachObject;
+			this.talk = function () {
+				alert("Hi! I am " + this.name + " and i teaching " + teachObject + ".");
+			}
+		}	
+		
+		Student.prototype = new Person();
+		Teacher.prototype = new Person();
+		
+		Student.prototype.sayNameAndGrade = function (){
+			alert("Hello my name is " + this.name + "." +
+				"My grade is " + this.grade + ".");
+		}
+		
+		
+		var person = new Person("Pesho");
+		person.talk();
+		
+		var student = new Student("Yordan",6);
+		student.talk();
+		student.sayNameAndGrade();
+		
+		var teacher = new Teacher("Mara", "Math");
+		teacher.talk();
+	</script>
+     
+    </body>
+    </html>

@@ -32,6 +32,13 @@
 		
 		var pesho = new Student("Pesho", 25);
 		document.write(pesho.printStudent());
+		
+		pesho.gender = "male";
+		br();
+		document.write(pesho.gender);
+		br();
+		Student.prototype.surname = "Surname";
+		document.write(pesho.surname);
 	</script>
      
     </body>
