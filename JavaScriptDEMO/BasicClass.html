@@ -1,12 +1,18 @@
-<!DOCTYPE html>
-
-<html lang="en-US">
-	<head>
-		<meta charset="UTF-8"> 
-	</head>
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Page title</title>
+        <link rel="stylesheet" href="css/style.css">
+    </head>
+    <body>
+     <script type = "text/javascript">
+		function br(){
+			document.write('<br />');
+		}
+	</script>
+    <!-- your content will go there..  -->
 	
-<body>
-	<h1>HELLO</h1>
 	<script type = "text/javascript">
 		function Student(name, age) {
 			this.name = name;
@@ -18,11 +24,15 @@
 		
 		var yordan = new Student("Yordan", 18);
 		document.write(yordan.name);
-		document.write('<br />');
+		br();
 		document.write(yordan.age);
-		document.write('<br />');
+		br();
 		document.write(yordan.printStudent());
+		br();
+		
+		var pesho = new Student("Pesho", 25);
+		document.write(pesho.printStudent());
 	</script>
-</body>
-	
-</html>
+     
+    </body>
+    </html>
