@@ -1,0 +1,34 @@
+#header {
+	color: #ffffff;
+	background-color: green;
+	font-size : 30px;
+	text-align : center;
+}
+
+#nav {}
+
+#nav ul {
+	margin : 0;
+	padding : 0;
+	list-style : none;
+	background: #666666;
+	min-height: 0;
+	
+}
+#nav ul:after {
+	content : "";
+	clear : both;
+	display : block;
+}
+
+
+#nav li {
+	margin : 0 20px;
+	float : left;
+	
+}
+
+#rotator {
+	clear : both;
+	
+}
