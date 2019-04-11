@@ -6,6 +6,9 @@ $(document).ready(function() {
 		},
 		mouseleave : function() {
 			$items.first().show();
+		},
+		click : function(){
+			$items.first().remove();
 		}
 	});
 	
@@ -15,6 +18,8 @@ $(document).ready(function() {
 	var $parent = $firstButton.parent();
 	
 	var $parents = $firstButton.parents(".list");
+	
+	
 });
 
 
