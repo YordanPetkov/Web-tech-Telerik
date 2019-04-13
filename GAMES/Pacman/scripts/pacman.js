@@ -190,7 +190,8 @@ function createGame(pacmanSelector, mazeSelector) {
 			col,
 			cell,
 			obj,
-			balls = [];
+			balls = [],
+			wallImage = document.getElementById("wallImage");
 		
 		for(row = 0; row < maze.length; row +=1){
 			for(col = 0; col < maze[row].length; col +=1){
@@ -198,12 +199,20 @@ function createGame(pacmanSelector, mazeSelector) {
 				
 				if(cell === ballChar){
 					obj = {
-						"x": col * cellSize + ballSize/2,
-						"y": row * cellSize + ballSize/2,
-						"size": ballSize
+						"x": col * cellSize + cellSize/4,
+						"y": row * cellSize + cellSize/4,
+						"size": cellSize/2
 					};
 					balls.push(obj);
 					drawBall(ctx, obj);
+				}
+				else if(cell === wallChar){
+					obj = {
+						"x": col * cellSize,
+						"y": row * cellSize,
+						"size": cellSize
+					};
+					ctx.drawImage(wallImage, obj.x , obj.y, cellSize, cellSize);
 				}
 			}
 		}
