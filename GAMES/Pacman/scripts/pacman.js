@@ -5,7 +5,7 @@ const maze = [
 	"**** *********** ********",
 	"****    *****    ********",
 	"**** *********** ********",
-	"     ** ********         ",
+	"     ** *** ****         ",
 	"**** ** ******** ********",
 	"****             ********",
 	"**** **  ******* ********",
@@ -24,18 +24,20 @@ function createGame(pacmanSelector, mazeSelector) {
 		mazeCanvas = document.querySelector(mazeSelector),
 		ctxMaze = mazeCanvas.getContext("2d"),
 		isMouthOpen = false,
+		cellsize = 30,
 		pacman = {
 			"x" : 0,
-			"y" : 0,
-			"size" : 30,
+			"y" : 92,
+			"size" : cellsize - 4,
 			"speed": 2
 		},
 		ball = {
 			"x": 200,
 			"y": 200,
-			"size": 10
+			"size": cellsize/3
 		},
 		balls = [],
+		walls = [],
 		dir = 0,
 		keyCodeToDirs = {
 			"37": 2,
@@ -63,11 +65,11 @@ function createGame(pacmanSelector, mazeSelector) {
 		],
 		columns = maze[0].length,
 		rows = maze.length;
-		mazeCanvas.width = columns * pacman.size;
-		mazeCanvas.height = rows * pacman.size;
+		mazeCanvas.width = columns  * cellsize;
+		mazeCanvas.height = rows  * cellsize;
 
-		pacmanCanvas.width = columns * pacman.size;
-		pacmanCanvas.height = rows * pacman.size;
+		pacmanCanvas.width = columns  * cellsize;
+		pacmanCanvas.height = rows  * cellsize;
 		/*
 		0 -> right
 		1 -> down
@@ -99,10 +101,25 @@ function createGame(pacmanSelector, mazeSelector) {
 				balls.splice(index, 1);
 			}
 		});
-		
-		if(updatePacmanPosition())
-		{
-			ctxPacman.clearRect(0, 0, pacmanCanvas.width, pacmanCanvas.height);
+
+		var isPacmanCollidingWithWall = false;
+		var futurePosition = {
+			"x": pacman.x + dirDeltas[dir].x + 1,
+			"y": pacman.y + dirDeltas[dir].y + 1,
+			"size": pacman.size - 2
+		};
+
+		walls.forEach(function(wall, index){
+			if(areCollinding(futurePosition,wall) || areCollinding(wall,futurePosition)){
+				isPacmanCollidingWithWall = true;
+			}
+		});
+
+		if(!isPacmanCollidingWithWall){
+			if(updatePacmanPosition())
+			{
+				ctxPacman.clearRect(0, 0, pacmanCanvas.width, pacmanCanvas.height);
+			}
 		}
 		
 		window.requestAnimationFrame(gameLoop);
@@ -184,13 +201,14 @@ function createGame(pacmanSelector, mazeSelector) {
 		
 	});
 
-	function drawMazeAndGetBalls(ctx, maze, cellSize){
+	function drawMazeAndGetBallsAndWalls(ctx, maze, cellSize){
 		const ballSize = 15;
 		var row,
 			col,
 			cell,
 			obj,
 			balls = [],
+			walls = [],
 			wallImage = document.getElementById("wallImage");
 		
 		for(row = 0; row < maze.length; row +=1){
@@ -212,17 +230,22 @@ function createGame(pacmanSelector, mazeSelector) {
 						"y": row * cellSize,
 						"size": cellSize
 					};
+					walls.push(obj);
 					ctx.drawImage(wallImage, obj.x , obj.y, cellSize, cellSize);
 				}
 			}
 		}
-		return balls;
+		return [
+			balls,
+			walls
+		];
 	}
 
 	
 	return {
 		"start" : function(){
-			balls = drawMazeAndGetBalls(ctxMaze, maze, pacman.size);
+			[balls, walls] = drawMazeAndGetBallsAndWalls(ctxMaze, maze, cellsize);
+			
 			gameLoop();
 		}
 	};
