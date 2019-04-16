@@ -110,6 +110,9 @@
         return false;
     }
 
+    let score = 0;
+    const scoreSystem = [0, 10, 15, 20, 25];
+
     function update() {
         let canFall = !checkForCollision(currentFigure.row + 1, currentFigure.col, currentFigure.obj.cells);
         
@@ -140,6 +143,8 @@
                 
                 
             }
+
+            score += scoreSystem[filledRows.length];
 
             getFigure();
         }
