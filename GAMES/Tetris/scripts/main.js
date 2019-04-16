@@ -39,7 +39,7 @@
         col: 0
     };
 
-    let gameSpeed = 1000;
+    let gameSpeed = 500;
 
     function getFigure() {
         const index = Math.random() * figures.length | 0;
@@ -49,6 +49,7 @@
     }
 
     function update() {
+        console.log('Update');
         let canFall = true;
         for(let i = 0; i < currentFigure.obj.cells.length; i += 1){
             const row = currentFigure.row + i + 1;
@@ -74,6 +75,7 @@
                     }
                 }
             }
+            getFigure();
         }
         
 
@@ -81,11 +83,12 @@
         //draw();
         //console.log(currentFigure);
         //requestAnimationFrame(update);
-        setInterval(update, gameSpeed);
+        setTimeout(update, gameSpeed);
     }
     //draw();
     getFigure();
     update();
+    
 
 
 

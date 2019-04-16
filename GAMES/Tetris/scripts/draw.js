@@ -57,11 +57,14 @@
         }
     }
     function draw(){
+        console.log("draw");
         context.clearRect(0, 0, canvas.width, canvas.height);
+        //context.fillRect(0, 0, getCellX(TETRIS_COLS), getCellY(TETRIS_ROWS));
         
         drawFigure();
         drawTable();
         drawGrid();
+        //setTimeout(update, gameSpeed);
         
         //setInterval(draw, 1000);
         requestAnimationFrame(draw);
