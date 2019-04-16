@@ -10,8 +10,8 @@
             setTimeout(callback, 1000 / 30); // 30 FPS
         });
 
-    canvas.width = 800;
-    canvas.height = 600;
+    canvas.width = 512;
+    canvas.height = 512;
 
     function drawFigure(){
         const { row, col, obj: {color, cells} } = currentFigure;
@@ -57,7 +57,6 @@
         }
     }
     function draw(){
-        console.log("draw");
         context.clearRect(0, 0, canvas.width, canvas.height);
         //context.fillRect(0, 0, getCellX(TETRIS_COLS), getCellY(TETRIS_ROWS));
         
