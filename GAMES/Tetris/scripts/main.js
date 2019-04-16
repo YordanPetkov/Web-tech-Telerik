@@ -57,7 +57,7 @@
             color: "purple",
             cells: [
                 [1, 1, 1],
-                [0, 1, 1]
+                [0, 0, 1]
             ]
         },
         {
@@ -83,7 +83,8 @@
         col: 0
     };
 
-    let gameSpeed = 500;
+    let gameSpeed = 4;
+    let gameSpeedOverride = 0;
 
     function getFigure() {
         const index = Math.random() * figures.length | 0;
@@ -133,24 +134,45 @@
         //draw();
         //console.log(currentFigure);
         //requestAnimationFrame(update);
-        setTimeout(update, gameSpeed);
+        const currentSpeed = gameSpeedOverride || gameSpeed;
+        setTimeout(update, 1000 / currentSpeed);
     }
     //draw();
     getFigure();
     update();
+
+    setInterval(function() {
+        gameSpeed += 1;
+    }, 60 * 1000);
     
     window.addEventListener("keydown", function(ev) {
         if(ev.key === "ArrowLeft"){
-            let canMove = currentFigure.col > 0 && !checkForCollision(currentFigure.row, currentFigure.col - 1);
+            const canMove = currentFigure.col > 0 && !checkForCollision(currentFigure.row, currentFigure.col - 1);
             if(canMove) {
                 currentFigure.col -= 1;
             }
         }else if(ev.key === 'ArrowRight'){
-            let canMove = currentFigure.col + currentFigure.obj.cells[0].length < TETRIS_COLS && !checkForCollision(currentFigure.row, currentFigure.col + 1);
+            const canMove = currentFigure.col + currentFigure.obj.cells[0].length < TETRIS_COLS && !checkForCollision(currentFigure.row, currentFigure.col + 1);
             if(canMove) {
                 currentFigure.col += 1;
             }
         }
+        else if(ev.key === "ArrowDown") {
+            gameSpeedOverride = 20;
+        }
+        else if(ev.key === 'q'){// rotate counter-clockwise
+            currentFigure.obj.cells = getLeftRotation(currentFigure.obj.cells);
+        }
+        else if(ev.key === 'w'){//rotate clockwise
+            currentFigure.obj.cells = getRightRotation(currentFigure.obj.cells);
+        }
+    });
+
+    window.addEventListener("keyup", function(ev) {
+        if(ev.key === "ArrowDown"){
+            gameSpeedOverride = 0;
+        }
+
     });
 
 

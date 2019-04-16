@@ -10,8 +10,8 @@
             setTimeout(callback, 1000 / 30); // 30 FPS
         });
 
-    canvas.width = 800;
-    canvas.height = 600;
+    canvas.width = 600;
+    canvas.height = 400;
 
     function drawFigure(){
         const { row, col, obj: {color, cells} } = currentFigure;
