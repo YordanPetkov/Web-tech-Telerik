@@ -6,7 +6,7 @@
             window.webkitRequestAnimationFrame ||
             function(callback) {
                 setTimeout(callback, 1000 / 30); // 30 FPS
-            })
+            });
 
     canvas.width = 800;
     canvas.height = 600;
@@ -23,7 +23,7 @@
 
         requestAnimationFrame(draw);
     }
-
+    draw();
     setInterval(update,100);
 
 
