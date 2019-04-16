@@ -116,6 +116,7 @@
         if(canFall){
             currentFigure.row += 1;
         } else {
+            const filledRows = [];
             for(let i = 0; i < currentFigure.obj.cells.length; i += 1){
                 const row = currentFigure.row + i;
                 for(let j = 0; j < currentFigure.obj.cells[i].length; j += 1){
@@ -125,7 +126,21 @@
                         tetrisTable[row][col] = currentFigure.obj.color;
                     }
                 }
+                //check if everything in row is true
+                const isRowFilled = tetrisTable[row].every(x => x);
+                if(isRowFilled) {
+                    filledRows.push(row);
+                }
             }
+
+            for(const row of filledRows) {
+                tetrisTable.splice(row, 1);
+                const emptyRow = Array.from({ length: TETRIS_COLS});
+                tetrisTable.unshift(emptyRow);
+                
+                
+            }
+
             getFigure();
         }
         
@@ -158,7 +173,7 @@
             }
         }
         else if(ev.key === "ArrowDown") {
-            gameSpeedOverride = 20;
+            gameSpeedOverride = 50;
         }
         else if(ev.key === 'q' || ev.key === 'w'){
             const rotateFunc = (ev.key === 'q' ? getLeftRotation : getRightRotation);
