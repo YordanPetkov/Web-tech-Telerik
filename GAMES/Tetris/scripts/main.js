@@ -88,13 +88,16 @@
     function getFigure() {
         const index = Math.random() * figures.length | 0;
         currentFigure.obj = figures[index];
-        currentFigure.row = 0;
+        currentFigure.row = -figures[index].cells.length;
         currentFigure.col = 0;
     }
 
     function checkForCollision(offsetRow, offsetCol) {
         for(let i = 0; i < currentFigure.obj.cells.length; i += 1){
             const row = offsetRow + i;
+            if(row < 0){
+                continue;
+            }
             for(let j = 0; j < currentFigure.obj.cells[i].length; j += 1){
                 const col = j + offsetCol;
 
