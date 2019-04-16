@@ -13,22 +13,40 @@
     canvas.width = 800;
     canvas.height = 600;
 
+    function drawTable(){
+        for(let i = 0; i < TETRIS_ROWS; i += 1){
+            for(let j = 0; j < TETRIS_COLS; j += 1){
+                if(!tetrisTable[i][j]){
+                    continue;
+                }
+                const color = tetrisTable[i][j];
+                context.fillStyle = color;
+                context.fillRect(getCellX(i),
+                                 getCellY(j),
+                                 TETRIS_CELL_SIZE,
+                                 TETRIS_CELL_SIZE
+                                 );
+            }
+        }
+    }
+
     function drawGrid(){
         for(let i = 0; i <= TETRIS_ROWS; i += 1){
-            context.moveTo(0, TETRIS_CELL_SIZE * i);
-            context.lineTo(TETRIS_COLS * TETRIS_CELL_SIZE, TETRIS_CELL_SIZE * i);
+            context.moveTo(0, getCellY(i));
+            context.lineTo(getCellX(TETRIS_COLS), getCellY(i));
             context.stroke();
         }
 
         for(let i = 0; i <= TETRIS_COLS; i += 1){
-            context.moveTo(TETRIS_CELL_SIZE * i, 0);
-            context.lineTo(TETRIS_CELL_SIZE * i, TETRIS_ROWS * TETRIS_CELL_SIZE);
+            context.moveTo(getCellX(i), 0);
+            context.lineTo(getCellX(i), getCellY(TETRIS_ROWS));
             context.stroke();
         }
     }
     function draw(){
         context.clearRect(0, 0, canvas.width, canvas.height);
         
+        drawTable();
         drawGrid();
 
         requestAnimationFrame(draw);
