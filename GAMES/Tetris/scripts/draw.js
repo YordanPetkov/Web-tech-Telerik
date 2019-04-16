@@ -10,8 +10,10 @@
             setTimeout(callback, 1000 / 30); // 30 FPS
         });
 
-    canvas.width = 600;
-    canvas.height = 400;
+    canvas.width = 800;
+    canvas.height = getCellY(TETRIS_ROWS);
+    canvas.style.width = canvas.width + "px";
+    canvas.style.height = canvas.height + "px";
 
     function drawFigure(){
         const { row, col, obj: {color, cells} } = currentFigure;
@@ -44,6 +46,7 @@
     }
 
     function drawGrid(){
+        context.strokeStyle = "grey";
         for(let i = 0; i <= TETRIS_ROWS; i += 1){
             context.moveTo(0, getCellY(i));
             context.lineTo(getCellX(TETRIS_COLS), getCellY(i));
@@ -60,10 +63,24 @@
         context.clearRect(0, 0, canvas.width, canvas.height);
         //context.fillRect(0, 0, getCellX(TETRIS_COLS), getCellY(TETRIS_ROWS));
         
+        context.fillStyle = 'black';
+        context.fillRect(0, 0, getCellX(TETRIS_COLS), getCellY(TETRIS_ROWS));
+
         drawFigure();
         drawTable();
         drawGrid();
         //setTimeout(update, gameSpeed);
+        context.fillStyle = "black";
+        context.font = "40px Calibri";
+        context.fillText(
+            `Score : ${getScore()}`.trim(),
+            getCellX(TETRIS_COLS) + 100,
+            100);
+        context.fillText(
+           `Speed : ${getSpeed()}`.trim(),
+            getCellX(TETRIS_COLS) + 100,
+            140);
+
         
         //setInterval(draw, 1000);
         requestAnimationFrame(draw);

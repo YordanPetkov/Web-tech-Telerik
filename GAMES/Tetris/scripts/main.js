@@ -1,11 +1,8 @@
 
     "use strict"
-    
-    
-
     const TETRIS_ROWS = 18;
     const TETRIS_COLS = 10;
-    const TETRIS_CELL_SIZE = 20;
+    const TETRIS_CELL_SIZE = 24;
 
     const tetrisTable = Array.from({length: TETRIS_ROWS})
             .map(() => Array.from({ length: TETRIS_COLS})
@@ -21,7 +18,13 @@
         return TETRIS_CELL_SIZE * col;
     }
 
-    (function (){
+    let currentFigure = {
+        obj: {},
+        row: 0,
+        col: 0
+    };
+
+    const { getScore, getSpeed  } = (function (){
 
         const figures = [
             {
@@ -79,13 +82,9 @@
 
         
 
-        let currentFigure = {
-            obj: {},
-            row: 0,
-            col: 0
-        };
+        
 
-        let gameSpeed = 4;
+        
         let gameSpeedOverride = 0;
 
         function getFigure() {
@@ -112,7 +111,8 @@
             return false;
         }
 
-        let score = 0;
+        let gameScore = 0;
+        let gameSpeed = 4;
         const scoreSystem = [0, 10, 15, 20, 25];
 
         function update() {
@@ -146,7 +146,7 @@
                     
                 }
 
-                score += scoreSystem[filledRows.length];
+                gameScore += scoreSystem[filledRows.length];
 
                 getFigure();
             }
@@ -203,6 +203,10 @@
 
         });
 
+        return {
+            getScore: () => gameScore,
+            getSpeed: () => gameSpeed
+        };
     }());
 
 
