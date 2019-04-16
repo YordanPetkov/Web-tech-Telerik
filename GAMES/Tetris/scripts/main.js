@@ -22,6 +22,50 @@
                 [1, 1],
                 [1, 1]
             ]
+        },
+        {
+            color: "yellow",
+            cells: [
+                 [1],
+                 [1],
+                 [1],
+                 [1]
+            ]
+        },
+        {
+            color: "lightgreen",
+            cells: [
+                [1, 1, 0],
+                [0, 1, 1]
+            ]
+        },
+        {
+            color: "lightblue",
+            cells: [
+                [0, 1, 1],
+                [1, 1, 0]
+            ]
+        },
+        {
+            color: "blue",
+            cells: [
+                [1, 1, 1],
+                [1, 0, 0]
+            ]
+        },
+        {
+            color: "purple",
+            cells: [
+                [1, 1, 1],
+                [0, 1, 1]
+            ]
+        },
+        {
+            color: "green",
+            cells: [
+                [1, 1, 1],
+                [0, 1, 0]
+            ]
         }
     ];
 
