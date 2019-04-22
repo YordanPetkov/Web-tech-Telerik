@@ -23,7 +23,9 @@ var grid = [],
 
 for(let i = 0; i < rows; i++){
     grid[i] = [];
-    for(let j = 0; j < cols; j++){
+    grid[i][0] = 0;
+    grid[i][cols-1] = 0;
+    for(let j = 1; j < cols-1; j++){
         grid[i][j] = 1;
     }
 }
@@ -34,7 +36,7 @@ var plNum = 0;
 
 io.on('connection', function(socket){
     let cid = plNum++;
-    players[cid] = new Player(Math.random() * 600, 30);
+    players[cid] = new Player(Math.random() * 599 + 1, 30);
     isCon[cid] = 1;
     socket.emit("id", cid, grid, players);
     io.emit("isCon", isCon);

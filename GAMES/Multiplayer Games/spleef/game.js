@@ -5,7 +5,7 @@ var grid = [];
 var players = [];
 var isCon = [];
 var cid;
-var playerWidth = 14,playerHeight = 14;
+var playerWidth = 14,playerHeight = 14,scope = 2*(playerWidth + playerHeight);
 
 socket.on("id", function(id,g,p) {
     cid = id;
@@ -103,13 +103,22 @@ function draw() {
     }
 }
 
-function keyup(key) {
+function keydown(key) {
 	if(key == 87 && onFloor){
         dy -= 5;
     }
 }
+
+function mouseInScope(){
+    if((mouseX >= (players[cid].x - scope)) && (mouseX <= (players[cid].x + scope))
+        && (mouseY >= (players[cid].y - scope)) && (mouseY <= (players[cid].y + scope))){
+            return true;
+        }
+    return false;
+}
+
 function mouseup() {
-    if(true){
+    if(mouseInScope()){
         let i = Math.floor((mouseY - 400)/20);
         let j = Math.floor(mouseX/20);
         if(i>=0 && i<10 && j>=0 && j<40){
