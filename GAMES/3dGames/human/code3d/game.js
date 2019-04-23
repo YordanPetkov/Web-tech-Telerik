@@ -32,8 +32,8 @@ camera.lookAt(new THREE.Vector3(0, 0, 0));
 var wall_geometry = new THREE.BoxGeometry(10, 8, 1);
 var wall1 = new THREE.Mesh(wall_geometry, wall_material);
 var wall2 = new THREE.Mesh(wall_geometry, wall_material);
-wall1.position.set(0, 0, -5);
-wall2.position.set(-5, 0, 0);
+wall1.position.set(0, -1.5, -5);
+wall2.position.set(-5, -1.5, 0);
 wall2.rotation.y = Math.PI/2;
 scene.add(wall1);
 scene.add(wall2);
@@ -72,12 +72,12 @@ function update() {
 		cz+=delta*5*Math.sin(-alpha - Math.PI/2);
 		cx+=delta*5*Math.cos(-alpha - Math.PI/2);
 	}	
-	if(isKeyPressed[65]){
+	/* if(isKeyPressed[65]){
 		alpha += delta;
 	}	
 	if(isKeyPressed[68]){
 		alpha -= delta;
-	}	
+	}	 */
 
 	for(let i = 0; i<parts.length; i++){
 		parts[i].rotation.y = alpha;
@@ -103,10 +103,19 @@ function keyup(key) {
 }
 
 function keydown(key) {
+	if(key == 27){
+		document.exitPointerLock();
+	}
 	// Show the pressed keycode in the console
 	console.log("Keydown", key);
 }
+
+function mouseMove(e){
+	alpha += -(e.movementX * 0.008);
+}
 function mouseup() {
+	var canvas = document.getElementsByTagName("canvas")[0];
+	canvas.requestPointerLock();
 	// Show coordinates of mouse on click
 	console.log("Mouse clicked at", mouseX, mouseY);
 }
