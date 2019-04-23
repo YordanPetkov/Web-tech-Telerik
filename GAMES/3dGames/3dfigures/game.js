@@ -23,14 +23,12 @@ light2.position.set(-8, -8, 12);
 scene.add( light );
 scene.add( light2 );
 
+var t = 0;
 function update() {
+	t += 0.03;
 	for(let i = 0; i < 10; i++){
 		for(let j = 0; j < 10; j++){
-			if(Math.random() < 0.5){
-				cube[i][j].position.y += 0.01;
-			}else {
-				cube[i][j].position.y -= 0.01;
-			}
+			cube[i][j].position.y = Math.sin(t + (i-j)/4);
 		}
 		
 	}
