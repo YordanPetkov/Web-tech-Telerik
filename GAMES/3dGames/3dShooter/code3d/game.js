@@ -27,6 +27,7 @@ scene.add( light );
 scene.add( light2 );
 scene.add( light3 );
 
+var velocity = 0.1;
 var alpha = Math.PI/2, beta = 0;
 var cx=0 ,cy=0, cz=0, dy=0;
 
@@ -42,7 +43,20 @@ updateCamera();
 
 function update() {
 	if (isKeyPressed[87]){
-		
+		cx += Math.cos(alpha)*velocity;
+		cz += Math.sin(alpha)*velocity;
+	}
+	if (isKeyPressed[83]){
+		cx += Math.cos(alpha+Math.PI)*velocity;
+		cz += Math.sin(alpha+Math.PI)*velocity;
+	}
+	if (isKeyPressed[65]){
+		cx += Math.cos(alpha-Math.PI/2)*velocity;
+		cz += Math.sin(alpha-Math.PI/2)*velocity;
+	}
+	if (isKeyPressed[68]){
+		cx += Math.cos(alpha+Math.PI/2)*velocity;
+		cz += Math.sin(alpha+Math.PI/2)*velocity;
 	}
 	updateCamera();
 }
@@ -64,8 +78,8 @@ function keydown(key) {
 }
 
 function mouseMove(e){
-	alpha += (e.movementX * 0.003);
-	beta -= (e.movementY*0.003);
+	alpha += (e.movementX * 0.001);
+	beta -= (e.movementY*0.001);
 	if(beta > Math.PI/2)beta = Math.PI/2;
 	if(beta < -Math.PI/2)beta = -Math.PI/2;
 }
