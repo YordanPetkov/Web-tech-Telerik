@@ -25,7 +25,7 @@ right_leg.position.set( -0.5, -3.5, 0);
 scene.add(left_leg);
 scene.add(right_leg);
 
-camera.position.set(25, 18, 35);
+camera.position.set(10, 10, 16);
 camera.lookAt(new THREE.Vector3(0, 0, 0));
 
 var light = new THREE.PointLight( );
@@ -39,6 +39,8 @@ scene.add( light2 );
 scene.add( light3 );
 
 var parts = [cube, head, left_arm, right_arm, left_leg, right_leg];
+var alpha = Math.PI/2;
+var cx=0 , cz=0;
 
 function update() {
 	/* cube.rotation.x += 0.015;
@@ -46,20 +48,36 @@ function update() {
 	cube.rotation.z += 0.005; */
 	
 	var delta = 0.01;
+	if(isKeyPressed[87]){
+		cz+=delta*5;
+	}	
+	if(isKeyPressed[83]){
+		cz-=delta*5;
+	}	
+	if(isKeyPressed[65]){
+		alpha += delta;
+	}	
+	if(isKeyPressed[68]){
+		alpha -= delta;
+	}	
+
 	for(let i = 0; i<parts.length; i++){
-		if(isKeyPressed[87]){
-			parts[i].position.z +=delta;
-		}	
-		if(isKeyPressed[83]){
-			parts[i].position.z -=delta;
-		}	
-		if(isKeyPressed[65]){
-			parts[i].position.x +=delta;
-		}	
-		if(isKeyPressed[68]){
-			parts[i].position.x -=delta;
-		}	
+		parts[i].rotation.y = alpha;
 	}
+
+	cube.position.x = cx;
+	cube.position.z = cz;
+	head.position.x = cx;
+	head.position.z = cz;
+	left_arm.position.x = cx + Math.cos(-alpha) * 1.25;
+	left_arm.position.z = cz + Math.sin(-alpha) * 1.25;
+	right_arm.position.x = cx + Math.cos(Math.PI-alpha) * 1.25;
+	right_arm.position.z = cz + Math.sin(Math.PI-alpha) * 1.25;
+	
+	left_leg.position.x = cx + Math.cos(-alpha) * 0.5;
+	left_leg.position.z = cz + Math.sin(-alpha) * 0.5;
+	right_leg.position.x = cx + Math.cos(Math.PI-alpha) * 0.5;
+	right_leg.position.z = cz + Math.sin(Math.PI-alpha) * 0.5;
 	
 }
 
