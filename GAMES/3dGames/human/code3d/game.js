@@ -40,13 +40,18 @@ scene.add( light3 );
 
 var parts = [cube, head, left_arm, right_arm, left_leg, right_leg];
 var alpha = Math.PI/2;
-var cx=0 , cz=0;
+var cx=0 ,cy=0, cz=0, dy=0;
 
 function update() {
 	/* cube.rotation.x += 0.015;
 	cube.rotation.y += 0.010;
 	cube.rotation.z += 0.005; */
-	
+	cy += dy;
+	if(cy < 0){
+		cy = 0;
+		dy = 0;
+	}
+	dy -= 0.01;
 	var delta = 0.01;
 	var deltaAlpha = 0.01;
 	if(isKeyPressed[87]){
@@ -68,24 +73,22 @@ function update() {
 		parts[i].rotation.y = alpha;
 	}
 
-	cube.position.x = cx;
-	cube.position.z = cz;
-	head.position.x = cx;
-	head.position.z = cz;
-	left_arm.position.x = cx + Math.cos(-alpha) * 1.25;
-	left_arm.position.z = cz + Math.sin(-alpha) * 1.25;
-	right_arm.position.x = cx + Math.cos(Math.PI-alpha) * 1.25;
-	right_arm.position.z = cz + Math.sin(Math.PI-alpha) * 1.25;
+	cube.position.set(cx,cy,cz);
+	head.position.set(cx,cy+2,cz)
+
+	left_arm.position.set(cx + Math.cos(-alpha) * 1.25,cy-0.5,cz + Math.sin(-alpha) * 1.25);
+	right_arm.position.set(cx + Math.cos(Math.PI-alpha) * 1.25,cy-0.5,cz + Math.sin(Math.PI-alpha) * 1.25);
 	
-	left_leg.position.x = cx + Math.cos(-alpha) * 0.5;
-	left_leg.position.z = cz + Math.sin(-alpha) * 0.5;
-	right_leg.position.x = cx + Math.cos(Math.PI-alpha) * 0.5;
-	right_leg.position.z = cz + Math.sin(Math.PI-alpha) * 0.5;
+	left_leg.position.set(cx + Math.cos(-alpha) * 0.5,cy-3.5,cz + Math.sin(-alpha) * 0.5);
+	right_leg.position.set(cx + Math.cos(Math.PI-alpha) * 0.5,cy-3.5,cz + Math.sin(Math.PI-alpha) * 0.5);
 	
 }
 
 function keyup(key) {
 	// Show the pressed keycode in the console
+	if(key == 32 &&  cy <= 0){
+		dy = 0.2;
+	}
 	console.log("Keyup", key);
 }
 
