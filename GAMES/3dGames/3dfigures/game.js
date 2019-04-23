@@ -1,12 +1,13 @@
 // Creating variables
 var geometry = new THREE.BoxGeometry( 0.9, 0.9, 0.9 );
 var material = new THREE.MeshPhongMaterial();
-
-for(let i = -5; i < 5; i++){
-	for(let j = -5; j < 5; j++){
-		var cube = new THREE.Mesh( geometry, material );
-		cube.position.set(i, 0, j);
-		scene.add( cube );
+var cube = [];
+for(let i = 0; i < 10; i++){
+	cube[i] = [];
+	for(let j = 0; j < 10; j++){
+		cube[i][j] = new THREE.Mesh( geometry, material );
+		cube[i][j].position.set(i-5, 0, j-5);
+		scene.add( cube[i][j] );
 	}
 	
 }
@@ -23,9 +24,16 @@ scene.add( light );
 scene.add( light2 );
 
 function update() {
-	/* cube.rotation.x += 0.015;
-	cube.rotation.y += 0.010;
-	cube.rotation.z += 0.005; */
+	for(let i = 0; i < 10; i++){
+		for(let j = 0; j < 10; j++){
+			if(Math.random() < 0.5){
+				cube[i][j].position.y += 0.01;
+			}else {
+				cube[i][j].position.y -= 0.01;
+			}
+		}
+		
+	}
 }
 
 function keyup(key) {
