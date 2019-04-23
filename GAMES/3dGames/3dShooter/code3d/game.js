@@ -8,14 +8,15 @@ var wall_material = new THREE.MeshPhongMaterial();
 
 
 
-var wall_geometry = new THREE.BoxGeometry(10, 8, 1);
-var wall1 = new THREE.Mesh(wall_geometry, wall_material);
-var wall2 = new THREE.Mesh(wall_geometry, wall_material);
-wall1.position.set(0, -1.5, -5);
-wall2.position.set(-5, -1.5, 0);
-wall2.rotation.y = Math.PI/2;
-scene.add(wall1);
-scene.add(wall2);
+var wall_geometry = new THREE.BoxGeometry(10, 4, 1);
+for(let i =0; i <500 ; i++){
+	let wall = new THREE.Mesh(wall_geometry, wall_material);
+	wall.position.set(Math.random()*1000-500, 0, Math.random()*1000-500);
+	if(Math.random()>0.5){
+		wall.rotation.y = Math.PI/2;
+	}
+	scene.add(wall);
+}
 
 var light = new THREE.PointLight( );
 var light2 = new THREE.PointLight( );
@@ -42,6 +43,9 @@ function updateCamera(){
 updateCamera();
 
 function update() {
+	dy-= 0.01;
+	cy+=dy;
+	if(cy<0)cy = 0;
 	if (isKeyPressed[87]){
 		cx += Math.cos(alpha)*velocity;
 		cz += Math.sin(alpha)*velocity;
@@ -64,7 +68,7 @@ function update() {
 function keyup(key) {
 	// Show the pressed keycode in the console
 	if(key == 32 &&  cy <= 0){
-		dy = 0.2;
+		dy = 0.3;
 	}
 	console.log("Keyup", key);
 }
@@ -80,8 +84,8 @@ function keydown(key) {
 function mouseMove(e){
 	alpha += (e.movementX * 0.001);
 	beta -= (e.movementY*0.001);
-	if(beta > Math.PI/2)beta = Math.PI/2;
-	if(beta < -Math.PI/2)beta = -Math.PI/2;
+	if(beta > Math.PI/2-0.001)beta = Math.PI/2-0.001;
+	if(beta < -Math.PI/2+0.001)beta = -Math.PI/2+0.001;
 }
 function mouseup() {
 	if(document.pointerLockElement !== canvas){
