@@ -1,7 +1,7 @@
 // Creating variables
 
 var canvas = document.getElementsByTagName("canvas")[0];
-var geometry = new THREE.BoxGeometry( 2, 3, 1.5 );
+var geometry = new THREE.BoxGeometry( 2, 2, 2 );
 var material = new THREE.MeshPhongMaterial({color : "red"});
 var wall_material = new THREE.MeshPhongMaterial();
 
@@ -18,12 +18,21 @@ for(let i =0; i <500 ; i++){
 	scene.add(wall);
 }
 
+var ne = 5;
+var enemy = [], er = [];
+for(let i=0; i<ne; i++){
+	enemy[i] = new THREE.Mesh(geometry,material);
+	enemy[i].position.set(Math.random()*1000-500, 0, Math.random()*1000-500);
+	scene.add(enemy[i]);
+	er[i] = 0;
+}
+
 var light = new THREE.PointLight( );
 var light2 = new THREE.PointLight( );
 var light3 = new THREE.PointLight( );
-light.position.set(-100,100,100);
-light2.position.set(100, 100, -50);
-light3.position.set(0, -100 , 50);
+light.position.set(-1000,1000,1000);
+light2.position.set(1000, 1000, -500);
+light3.position.set(0, -1000 , 500);
 scene.add( light );
 scene.add( light2 );
 scene.add( light3 );
@@ -63,6 +72,16 @@ function update() {
 		cz += Math.sin(alpha+Math.PI/2)*velocity;
 	}
 	updateCamera();
+	
+	for(let i=0 ; i < ne; i++){
+		if(Math.random()<0.03){
+			er[i] = Math.random()*0.1-0.05;
+		}
+		enemy[i].rotateY(er[i]);
+		enemy[i].position.set(enemy[i].position.x + Math.cos(enemy[i].rotation.y)*velocity,
+			    enemy[i].position.y,
+				enemy[i].position.z +  Math.sin(enemy[i].rotation.y)*velocity);
+	}
 }
 
 function keyup(key) {
