@@ -48,11 +48,14 @@ function update() {
 	cube.rotation.z += 0.005; */
 	
 	var delta = 0.01;
+	var deltaAlpha = 0.01;
 	if(isKeyPressed[87]){
-		cz+=delta*5;
+		cz+=delta*5*Math.sin(-alpha + Math.PI/2);
+		cx+=delta*5*Math.cos(-alpha + Math.PI/2);
 	}	
 	if(isKeyPressed[83]){
-		cz-=delta*5;
+		cz+=delta*5*Math.sin(-alpha - Math.PI/2);
+		cx+=delta*5*Math.cos(-alpha - Math.PI/2);
 	}	
 	if(isKeyPressed[65]){
 		alpha += delta;
