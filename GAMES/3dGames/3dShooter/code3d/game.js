@@ -5,17 +5,18 @@ var geometry = new THREE.BoxGeometry( 2, 2, 2 );
 var material = new THREE.MeshPhongMaterial({color : "red"});
 var wall_material = new THREE.MeshPhongMaterial();
 
-
+var nw = 500;
+var wall =[];
 
 
 var wall_geometry = new THREE.BoxGeometry(10, 4, 1);
-for(let i =0; i <500 ; i++){
-	let wall = new THREE.Mesh(wall_geometry, wall_material);
-	wall.position.set(Math.random()*1000-500, 0, Math.random()*1000-500);
+for(let i =0; i <nw ; i++){
+	wall[i] = new THREE.Mesh(wall_geometry, wall_material);
+	wall[i].position.set(Math.random()*1000-500, 0, Math.random()*1000-500);
 	if(Math.random()>0.5){
-		wall.rotation.y = Math.PI/2;
+		wall[i].rotation.y = Math.PI/2;
 	}
-	scene.add(wall);
+	scene.add(wall[i]);
 }
 
 var ne = 5;
@@ -39,7 +40,7 @@ scene.add( light3 );
 
 var velocity = 0.1;
 var alpha = Math.PI/2, beta = 0;
-var cx=0 ,cy=0, cz=0, dy=0;
+var cx=0 ,cy=0, cz=0, dy=0,oldx,oldz;
 
 
 function updateCamera(){
@@ -53,6 +54,10 @@ updateCamera();
 
 function update() {
 	dy-= 0.01;
+
+	oldx = cx;
+	oldz = cz;
+
 	cy+=dy;
 	if(cy<0)cy = 0;
 	if (isKeyPressed[87]){
@@ -71,6 +76,28 @@ function update() {
 		cx += Math.cos(alpha+Math.PI/2)*velocity;
 		cz += Math.sin(alpha+Math.PI/2)*velocity;
 	}
+
+	let collision = false;
+	for(let i=0; i<nw; i++){
+		if(wall[i].rotation.y > 0){
+			if(areColliding(cx-1,cz-1,2,2,wall[i].position.x-0.5,
+				wall[i].position.z-5, 1, 10)){
+					collision = true;
+				}
+		}else {
+			if(areColliding(cx-1,cz-1,2,2,wall[i].position.x-5,
+				wall[i].position.z-0.5, 10, 1)){
+					collision = true;
+				}
+		}
+	}
+
+	if(collision){
+		cx = oldx;
+		cz = oldz;
+	}
+	
+
 	updateCamera();
 	
 	for(let i=0 ; i < ne; i++){
