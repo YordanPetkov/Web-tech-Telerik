@@ -29,6 +29,7 @@ class Player {
 		scene.add(this.rl);
 	}
 	move(x, y, z, alpha, beta){
+		alpha = Math.PI/2 - alpha;
 		this.b.position.set(x, y, z);
 		this.h.position.set(x, y+2, z);
 		this.la.position.set(x + Math.cos(-alpha) * 1.25,y-0.5,z + Math.sin(-alpha) * 1.25);
