@@ -14,15 +14,19 @@ app.get("/three.min.js", function(req, res){
 });
 
 //creating variables
-var numberOfClients = 0;
+var pl = [];
+var numpl = 0;
 
 io.on('connection', function(socket){
-    ++numberOfClients;
-    console.log(`Number Of clients : ${numberOfClients}`);
-    io.emit("number", numberOfClients);
-
-    socket.on("space", function() {
-        console.log("Nqkoi natisna space!");
+    let cid=numpl++;
+    pl.push({x: Math.random()*1000 - 500, y: 0,
+            z: Math.random()*1000-500,
+            alpha: 0, beta: 0});
+    socket.emit("init", cid, pl);
+    socket.broadcast.emit("newpl", cid, pl[cid]);
+    socket.on("mv", (x, y, z, alpha, beta) => {
+        pl[cid] = {x: x, y: y, z: z, alpha: alpha, beta: beta};
+        socket.broadcast.emit("mv", cid, pl[cid]);
     });
 });
 
