@@ -1,4 +1,4 @@
-﻿using System;
+﻿
 using UnityEngine;
 
 public class BackgroundCollideControler : MonoBehaviour
@@ -12,6 +12,7 @@ public class BackgroundCollideControler : MonoBehaviour
 
     private int numberOfPipes;
     private float distanceBetweenPipes;
+    private bool upperPipe;
 
 
     public void Start()
@@ -20,13 +21,15 @@ public class BackgroundCollideControler : MonoBehaviour
         var grounds = GameObject.FindGameObjectsWithTag("Ground");
         var pipes = GameObject.FindGameObjectsWithTag("Pipe");
 
+        RandomizePipes(pipes);
+
         this.numberOfBackgrounds = backgrounds.Length;
         this.numberOfGrounds = grounds.Length;
         this.numberOfPipes = pipes.Length;
 
         if (this.numberOfBackgrounds < 2 || this.numberOfGrounds < 2 || this.numberOfPipes < 2)
         {
-            throw new InvalidOperationException("You must have at least two backgrounds or grounds or pipes in your scene!");
+            throw new System.InvalidOperationException("You must have at least two backgrounds or grounds or pipes in your scene!");
         }
 
         this.distanceBetweenBackgrounds = this.DistanceBetweenObjects(backgrounds[0], backgrounds[1]);
@@ -47,22 +50,32 @@ public class BackgroundCollideControler : MonoBehaviour
                 originalPosition.x +=
                         this.numberOfBackgrounds
                         * this.distanceBetweenBackgrounds;
-                go.transform.position = originalPosition;
             }
             else if (collider.CompareTag("Ground"))
             {
                 originalPosition.x +=
                         this.numberOfGrounds
                         * this.distanceBetweenGrounds;
-                go.transform.position = originalPosition;
             }
             else
             {
                 originalPosition.x +=
                         this.numberOfPipes
                         * this.distanceBetweenPipes;
-                go.transform.position = originalPosition;
+                float randomY;
+                if (upperPipe)
+                {
+                    randomY = Random.Range(1.5f, 2f);
+                }
+                else
+                {
+                    randomY = Random.Range(-1, 0.5f);
+                }
+                originalPosition.y = randomY;
+                this.upperPipe = !this.upperPipe;     
+                
             }
+            go.transform.position = originalPosition;
 
         }
         /*
@@ -81,5 +94,30 @@ public class BackgroundCollideControler : MonoBehaviour
     {
         return Mathf.Abs(first.transform.position.x
             - second.transform.position.x);
+    }
+
+
+    private void RandomizePipes(GameObject[] pipes)
+    {
+        int count = 0;
+        for (int i = 0; i < pipes.Length; i++)
+        {
+            count++;
+            var currentPipe = pipes[i];
+            float randomY;
+            if(count % 2 == 0) // upper pipe
+            {
+    
+                randomY = Random.Range(1.5f, 2f);
+            }
+            else // down pipe
+            {
+
+                randomY = Random.Range(-1, 1);
+            }
+            var pipePosition = currentPipe.transform.position;
+            pipePosition.y = randomY;
+            currentPipe.transform.position = pipePosition;
+        }
     }
 }

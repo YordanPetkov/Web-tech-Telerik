@@ -50,9 +50,9 @@ public class BirdController : MonoBehaviour
         }
     }
 
-    public void OnCollisionEnter2D(Collision2D collision)
+    public void OnCollisionEnter2D(Collision2D collision )
     {
-        if (collision.gameObject.CompareTag("Floor"))
+        if (collision.gameObject.CompareTag("Floor") || collision.gameObject.CompareTag("PipeCollision"))
         {
             this.isDead = true;
             this.animator.SetBool("BirdDead", true);
