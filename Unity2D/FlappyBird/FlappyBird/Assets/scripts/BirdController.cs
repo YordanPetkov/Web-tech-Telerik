@@ -6,6 +6,7 @@ public class BirdController : MonoBehaviour
 {
     public float flapSpeed = 100f;
     public float forwardSpeed = 100f;
+    public float maxFlapSpeed = 100f;
 
     private Rigidbody2D rb;
     private Animator animator;
@@ -39,6 +40,13 @@ public class BirdController : MonoBehaviour
             didFlap = false;
 
             this.rb.AddForce(new Vector2(0, flapSpeed));
+
+            var updatedVelocity = this.rb.velocity;
+            if(updatedVelocity.y > this.maxFlapSpeed)
+            {
+                updatedVelocity.y = this.maxFlapSpeed;
+                this.rb.velocity = updatedVelocity;
+            }
         }
     }
 
