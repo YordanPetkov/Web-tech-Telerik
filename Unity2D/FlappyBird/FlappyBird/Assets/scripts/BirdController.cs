@@ -8,12 +8,15 @@ public class BirdController : MonoBehaviour
     public float forwardSpeed = 100f;
 
     private Rigidbody2D rb;
+    private Animator animator;
+
     private bool didFlap;
     private bool isDead;
 
     public void Start()
     {
         this.rb = this.GetComponent<Rigidbody2D>();
+        this.animator = this.GetComponent<Animator>();
     }
     
     public void Update()
@@ -44,6 +47,13 @@ public class BirdController : MonoBehaviour
         if (collision.gameObject.CompareTag("Floor"))
         {
             this.isDead = true;
+            this.animator.SetBool("BirdDead", true);
+
+            this.forwardSpeed = 0;
         }
     }
+    
+
+
+
 }
