@@ -12,7 +12,7 @@ public class BirdController : MonoBehaviour
     private bool didFlap;
     private bool isDead;
     private bool gameStarted;
-    private int highScore = 0;
+    private int score = 0;
 
     private Vector2 originalPosition;
     private GameObject startButton;
@@ -108,6 +108,12 @@ public class BirdController : MonoBehaviour
             this.animator.SetBool("BirdDead", true);
             this.forwardSpeed = 0;
 
+            var currentHighScore = PlayerPrefs.GetInt("HighScore", 0);
+            if(this.score > currentHighScore)
+            {
+                PlayerPrefs.SetInt("HighScore", this.score);
+            }
+
             var renderer = this.startButton.GetComponent<SpriteRenderer>();
             renderer.enabled = true;
 
@@ -120,8 +126,15 @@ public class BirdController : MonoBehaviour
             this.startButton.transform.position = startButtonPosition;
         }
     }
-    
 
 
+    public void OnTriggerEnter2D(Collider2D collsion)
+    {
+        if (collsion.CompareTag("Pipe"))
+        {
+            this.score++;
+
+        }
+    }
 
 }
