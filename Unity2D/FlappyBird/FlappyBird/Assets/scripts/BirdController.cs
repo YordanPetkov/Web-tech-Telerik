@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class BirdController : MonoBehaviour
 {
@@ -35,11 +33,25 @@ public class BirdController : MonoBehaviour
         velocity.x = this.forwardSpeed;
         this.rb.velocity = velocity;
 
+        if(this.rb.velocity.y > 0)
+        {
+            this.rb.MoveRotation(30);
+        }
+        else if (!isDead)
+        {
+            var angle = velocity.y * 8;
+            if(angle < -90)
+            {
+                angle = -90;
+            }
+            this.rb.MoveRotation(angle);
+        }
+
         if (didFlap)
         {
             didFlap = false;
 
-            this.rb.AddForce(new Vector2(0, flapSpeed));
+            this.rb.AddForce(new Vector2(0, flapSpeed), ForceMode2D.Impulse);
 
             var updatedVelocity = this.rb.velocity;
             if(updatedVelocity.y > this.maxFlapSpeed)
