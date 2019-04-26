@@ -11,17 +11,40 @@ public class BirdController : MonoBehaviour
 
     private bool didFlap;
     private bool isDead;
+    private bool gameStarted;
 
+    private Vector2 originalPosition;
+    private GameObject startButton;
     public void Start()
     {
+        this.originalPosition = new Vector2(
+            this.transform.position.x,
+            this.transform.position.y);
+        this.startButton = GameObject.Find("StartButton");
+
         this.rb = this.GetComponent<Rigidbody2D>();
         this.animator = this.GetComponent<Animator>();
+
+        this.forwardSpeed = 0;
+        this.rb.gravityScale = 0;
+        this.animator.enabled = false;
     }
     
     public void Update()
     {
         if (Input.GetButtonDown("Fire1") && !this.isDead)
         {
+            if (!this.gameStarted)
+            {
+                
+                var renderer = this.startButton.GetComponent<SpriteRenderer>();
+                renderer.enabled = false;
+
+                this.forwardSpeed = 5;
+                this.rb.gravityScale = 1;
+                this.animator.enabled = true;
+            }
+
             this.didFlap = true;
         }
     }
@@ -68,8 +91,18 @@ public class BirdController : MonoBehaviour
         {
             this.isDead = true;
             this.animator.SetBool("BirdDead", true);
-
             this.forwardSpeed = 0;
+
+            var renderer = this.startButton.GetComponent<SpriteRenderer>();
+            renderer.enabled = true;
+
+            var startButtonX = Camera.main.transform.position.x;
+            var startButtonY = Camera.main.transform.position.y;
+
+            var startButtonPosition = this.startButton.transform.position;
+            startButtonPosition.x = startButtonX;
+            startButtonPosition.y = startButtonY;
+            this.startButton.transform.position = startButtonPosition;
         }
     }
     

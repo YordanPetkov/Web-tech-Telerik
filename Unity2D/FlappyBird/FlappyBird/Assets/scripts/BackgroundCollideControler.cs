@@ -17,6 +17,8 @@ public class BackgroundCollideControler : MonoBehaviour
 
     public void Start()
     {
+
+
         var backgrounds = GameObject.FindGameObjectsWithTag("Background");
         var grounds = GameObject.FindGameObjectsWithTag("Ground");
         var pipes = GameObject.FindGameObjectsWithTag("Pipe");
