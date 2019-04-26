@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-
+using UnityEngine.SceneManagement;
 public class BirdController : MonoBehaviour
 {
     public float flapSpeed = 100f;
@@ -12,6 +12,7 @@ public class BirdController : MonoBehaviour
     private bool didFlap;
     private bool isDead;
     private bool gameStarted;
+    private int highScore = 0;
 
     private Vector2 originalPosition;
     private GameObject startButton;
@@ -32,20 +33,34 @@ public class BirdController : MonoBehaviour
     
     public void Update()
     {
-        if (Input.GetButtonDown("Fire1") && !this.isDead)
+        if (Input.GetButtonDown("Fire1"))
         {
-            if (!this.gameStarted)
+            if (!this.isDead)
             {
+                if (!this.gameStarted)
+                {
                 
-                var renderer = this.startButton.GetComponent<SpriteRenderer>();
-                renderer.enabled = false;
+                    var renderer = this.startButton.GetComponent<SpriteRenderer>();
+                    renderer.enabled = false;
 
-                this.forwardSpeed = 5;
-                this.rb.gravityScale = 1;
-                this.animator.enabled = true;
+                    this.forwardSpeed = 5;
+                    this.rb.gravityScale = 1;
+                    this.animator.enabled = true;
+
+                    this.gameStarted = true;
+                }
+
+
+                this.didFlap = true;
             }
+            else
+            {
+                SceneManager.LoadScene("PlayScene");
+               
+            }
+            
 
-            this.didFlap = true;
+        
         }
     }
 

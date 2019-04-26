@@ -34,9 +34,9 @@ public class BackgroundCollideControler : MonoBehaviour
             throw new System.InvalidOperationException("You must have at least two backgrounds or grounds or pipes in your scene!");
         }
 
-        this.distanceBetweenBackgrounds = this.DistanceBetweenObjects(backgrounds[0], backgrounds[1]);
-        this.distanceBetweenGrounds = this.DistanceBetweenObjects(grounds[0], grounds[1]);
-        this.distanceBetweenPipes = this.DistanceBetweenObjects(pipes[0], pipes[1]);
+        this.distanceBetweenBackgrounds = this.DistanceBetweenObjects(backgrounds);
+        this.distanceBetweenGrounds = this.DistanceBetweenObjects(grounds);
+        this.distanceBetweenPipes = this.DistanceBetweenObjects(pipes);
     }   
 
     public void OnTriggerEnter2D(Collider2D collider)
@@ -71,7 +71,7 @@ public class BackgroundCollideControler : MonoBehaviour
                 }
                 else
                 {
-                    randomY = Random.Range(-1, 0.5f);
+                    randomY = Random.Range(-1, 0);
                 }
                 originalPosition.y = randomY;
                 this.upperPipe = !this.upperPipe;     
@@ -92,10 +92,20 @@ public class BackgroundCollideControler : MonoBehaviour
 
 
 
-    private float DistanceBetweenObjects(GameObject first,GameObject second)
+    private float DistanceBetweenObjects(GameObject[] gameObjects)
     {
-        return Mathf.Abs(first.transform.position.x
-            - second.transform.position.x);
+        float minDistance = float.MaxValue;
+        for (int i = 1; i < gameObjects.Length; i++)
+        {
+            var currentDistance = Mathf.Abs(gameObjects[0].transform.position.x
+            - gameObjects[i].transform.position.x);
+
+            if (currentDistance < minDistance)
+            {
+                minDistance = currentDistance;
+            }
+        }
+        return minDistance;
     }
 
 
@@ -115,7 +125,7 @@ public class BackgroundCollideControler : MonoBehaviour
             else // down pipe
             {
 
-                randomY = Random.Range(-1, 1);
+                randomY = Random.Range(-1, 0);
             }
             var pipePosition = currentPipe.transform.position;
             pipePosition.y = randomY;
