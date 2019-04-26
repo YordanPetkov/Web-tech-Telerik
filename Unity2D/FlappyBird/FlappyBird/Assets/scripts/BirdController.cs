@@ -9,7 +9,7 @@ public class BirdController : MonoBehaviour
 
     private Rigidbody2D rb;
     private bool didFlap;
-
+    private bool isDead;
 
     public void Start()
     {
@@ -18,7 +18,7 @@ public class BirdController : MonoBehaviour
     
     public void Update()
     {
-        if (Input.GetButtonDown("Fire1"))
+        if (Input.GetButtonDown("Fire1") && !this.isDead)
         {
             this.didFlap = true;
         }
@@ -36,6 +36,14 @@ public class BirdController : MonoBehaviour
             didFlap = false;
 
             this.rb.AddForce(new Vector2(0, flapSpeed));
+        }
+    }
+
+    public void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Floor"))
+        {
+            this.isDead = true;
         }
     }
 }
